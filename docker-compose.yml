@@ -1,0 +1,19 @@
+version: "3"
+services: 
+  redis:
+    image: redis
+    container_name: redis
+    ports: 
+      - "6379:6379"
+    networks:
+      - backend
+  node:
+    build: .
+    container_name: api_next
+    networks:
+      - backend
+    ports: 
+      - "3000:3000"
+
+networks: 
+  backend:
