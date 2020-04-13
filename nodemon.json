@@ -2,6 +2,6 @@
   "watch": "src",
   "ext": "ts,json",
   "execMap": {
-    "ts": "node --inspect -r sucrase/register"
+    "ts": "node --inspect -r ts-node/register"
   }
 }

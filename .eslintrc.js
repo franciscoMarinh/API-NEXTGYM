@@ -23,5 +23,6 @@ module.exports = {
     'standard'
   ],
   rules: {
+    "@typescript-eslint/explicit-function-return-type": "off"
   }
 }

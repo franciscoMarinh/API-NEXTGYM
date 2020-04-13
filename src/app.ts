@@ -4,7 +4,9 @@ import helmet from 'helmet'
 import routes from './api/modules/routes'
 import morgan from 'morgan'
 import authMiddlware from './api/commons/middlewares/auth.middleware'
-require('dotenv').config()
+require('dotenv').config({
+  path: '.env.local'
+})
 
 class AppController {
   public app: express.Application
