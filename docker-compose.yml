@@ -10,11 +10,6 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root
       POSTGRES_DB: next
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
   redis:
     image: redis
     container_name: redis
@@ -25,10 +20,10 @@ services:
   node:
     build: .
     container_name: api_next
+    env_file: 
+      - .env.container
     networks:
       - backend
-    volumes: 
-      - ./:/usr/app/
     ports: 
       - "9229:9229"
       - "3000:3000"
