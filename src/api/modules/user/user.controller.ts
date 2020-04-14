@@ -1,25 +1,22 @@
 import { Request, Response, NextFunction } from 'express'
 import HttpController from '../../commons/controller/http.controller'
-import { getConnection } from 'typeorm'
 import { User } from '../../../database/entity/User'
 
-class DatabaseModelController extends HttpController {
+class UserController extends HttpController {
   public get = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const connection = getConnection()
-    const users = await connection.manager.find(User)
+    const users = await User.find()
     this.sendResponse(res, next, users)
   }
 
   public post = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const connection = getConnection()
-    const { firstName, lastName, age } = req.body
+    const { name, password, email } = req.body
     const user = new User()
-    user.firstName = firstName
-    user.lastName = lastName
-    user.age = age
-    await connection.manager.save(user)
+    user.name = name
+    user.password = password
+    user.email = email
+    await user.save()
     this.sendResponse(res, next, user)
   }
 }
 
-export default new DatabaseModelController()
+export default new UserController()

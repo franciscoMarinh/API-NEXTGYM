@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import routes from './api/modules/routes'
 import morgan from 'morgan'
-import authMiddlware from './api/commons/middlewares/auth.middleware'
+// import authMiddlware from './api/commons/middlewares/auth.middleware'
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 require('dotenv').config({

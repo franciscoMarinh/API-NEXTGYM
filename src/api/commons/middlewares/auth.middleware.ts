@@ -1,17 +1,26 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
-import bluebird from 'bluebird'
+import Promises from 'bluebird'
+
+interface AuthRequest extends Request{
+  user: {
+    id: string;
+    email: string;
+  };
+}
 
 class AuthController {
-  auth = async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
+  private extractHeaderFromRequest (req: Request): boolean | string {
+    const { authorization } = req.headers
+    if (!authorization) return false
+    return authorization.split(' ')[1]
+  }
+
+  public authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void | Response> => {
     try {
-      const { authorization } = req.headers
-
-      if (!authorization) return res.sendStatus(401)
-
-      const [, token] = authorization.split(' ')
-
-      const promise = bluebird.promisify(jwt.verify)
+      const token = this.extractHeaderFromRequest(req)
+      if (!token) return res.sendStatus(401)
+      const promise = Promises.promisify(jwt.verify)
       const user = await promise(token, process.env.JWT_SECRET)
       req.user = {
         ...user
@@ -23,4 +32,4 @@ class AuthController {
   }
 }
 
-export default new AuthController().auth
+export default new AuthController().authMiddleware
