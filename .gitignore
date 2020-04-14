@@ -1,8 +1,8 @@
-.idea/
-node_modules/
-build/
-tmp/
-temp/
-dist/
-__tests__/coverage
 .env
+.idea
+node_modules
+build
+tmp
+temp
+dist
+__tests__/coverage
