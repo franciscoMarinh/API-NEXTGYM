@@ -39,6 +39,7 @@ class AppController {
       console.log('Database connected!')
     } catch (error) {
       console.log('Database error on connection')
+      console.log(error.message)
     }
   }
 }

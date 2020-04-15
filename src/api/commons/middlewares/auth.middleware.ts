@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 import Promises from 'bluebird'
+import HttpController from '../controller/http.controller'
 
 interface AuthRequest extends Request{
   user: {
@@ -9,25 +10,22 @@ interface AuthRequest extends Request{
   };
 }
 
-class AuthController {
-  private extractHeaderFromRequest (req: Request): boolean | string {
-    const { authorization } = req.headers
-    if (!authorization) return false
-    return authorization.split(' ')[1]
-  }
-
+class AuthController extends HttpController {
   public authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void | Response> => {
     try {
-      const token = this.extractHeaderFromRequest(req)
+      const { authorization } = req.headers
+      if (!authorization) return res.sendStatus(401)
+      const [, token] = authorization.split(' ')
       if (!token) return res.sendStatus(401)
-      const promise = Promises.promisify(jwt.verify)
-      const user = await promise(token, process.env.JWT_SECRET)
+      const getAsync = Promises.promisify(jwt.verify).bind(jwt)
+      const user = await getAsync(token, process.env.JWT_SECRET)
       req.user = {
-        ...user
+        email: user.email,
+        id: user.id
       }
       next()
     } catch (error) {
-      next(error)
+      this.sendResponse(res, next, undefined, { statusCode: 401 })
     }
   }
 }

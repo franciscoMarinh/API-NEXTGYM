@@ -1,6 +1,6 @@
 import {
   Entity, PrimaryGeneratedColumn,
-  Column, BaseEntity, Generated,
+  Column, BaseEntity,
   CreateDateColumn, UpdateDateColumn,
   Timestamp, BeforeInsert
 } from 'typeorm'
@@ -8,8 +8,7 @@ import bcrypt from 'bcrypt'
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  @Generated('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ nullable: false })
@@ -27,13 +26,21 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Timestamp
 
-  /* hooks */
+  /* Class method */
+  static async findByEmail (email: string, password: string): Promise<User> {
+    const user = await this.findOne({ email })
+    if (!user) throw new Error('user not found')
+    if (!await user.isPassword(password)) throw new Error('password incorret')
+    return user
+  }
+
+  /* Hooks */
   @BeforeInsert()
   async encriptPass (): Promise<void> {
     this.password = await bcrypt.hash(this.password, 10)
   }
 
-  /* prototypes */
+  /* Prototypes */
   async isPassword (password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password)
   }
