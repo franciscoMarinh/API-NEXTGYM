@@ -1,6 +1,8 @@
 require('dotenv').config({
   path: '.env.local'
 })
+
+const basePath = process.env.NODE_ENV === 'production' ? 'build' : 'src'
 module.exports = {
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -11,13 +13,13 @@ module.exports = {
   synchronize: false,
   logging: false,
   entities: [
-    'src/database/entity/**/*.ts'
+    `${basePath}/database/entity/**/*.ts`
   ],
   migrations: [
-    'src/database/migration/**/*.ts'
+    `${basePath}/database/migration/**/*.ts`
   ],
   subscribers: [
-    'src/database/subscriber/**/*.ts'
+    `${basePath}/database/subscriber/**/*.ts`
   ],
   cli: {
     entitiesDir: 'src/database/entity',
