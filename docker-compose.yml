@@ -20,8 +20,11 @@ services:
   node:
     build: .
     container_name: api_next
+    environment:
+      - REDIS_HOST=redis
+      - DB_HOST=postgres
     env_file: 
-      - .env.container
+      - .env.local
     networks:
       - backend
     ports: 
