@@ -20,7 +20,8 @@ class UserController extends HttpController {
       user.password = password
       user.email = email
       await user.save()
-      this.sendResponse(res, next, user)
+      const token = await user.generateUserToken()
+      this.sendResponse(res, next, { user, token })
     } catch (error) {
       this.sendResponse(res, next, undefined, { statusCode: 500, message: error.message })
     }

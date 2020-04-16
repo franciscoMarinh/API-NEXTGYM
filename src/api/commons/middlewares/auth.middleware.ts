@@ -23,9 +23,9 @@ class AuthController extends HttpController {
         email: user.email,
         id: user.id
       }
-      next()
+      return next()
     } catch (error) {
-      this.sendResponse(res, next, undefined, { statusCode: 401 })
+      return this.sendResponse(res, next, undefined, { statusCode: 401, message: error.message })
     }
   }
 }

@@ -9,7 +9,7 @@
       "test": "jest",
       "build": "tsc",
       "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-      "start": "node dist/server"
+      "start": "NODE_ENV=production node dist/server"
    },
    "license": "MIT",
    "devDependencies": {

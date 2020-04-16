@@ -1,11 +1,12 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-import routes from './api/modules/routes'
 import morgan from 'morgan'
-// import authMiddlware from './api/commons/middlewares/auth.middleware'
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
+// import authMiddlware from './api/commons/middlewares/auth.middleware'
+import routes from './api/modules/routes'
+import logger from './consumers/commons/utils/logger'
 require('dotenv').config({
   path: '.env.local'
 })
@@ -36,10 +37,9 @@ class AppController {
   private async database (): Promise<void> {
     try {
       await createConnection()
-      console.log('Database connected!')
+      logger.info('Database connected')
     } catch (error) {
-      console.log('Database error on connection')
-      console.log(error.message)
+      logger.error('Database not connected')
     }
   }
 }

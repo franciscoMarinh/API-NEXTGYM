@@ -5,6 +5,8 @@ import {
   Timestamp, BeforeInsert
 } from 'typeorm'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import Promises from 'bluebird'
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -43,5 +45,10 @@ export class User extends BaseEntity {
   /* Prototypes */
   async isPassword (password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password)
+  }
+
+  async generateUserToken (): Promise<string> {
+    const genAsync = Promises.promisify(jwt.sign).bind(jwt)
+    return genAsync({ email: this.email, id: this.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
   }
 }
