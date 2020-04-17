@@ -1,16 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import {
+  Entity, PrimaryGeneratedColumn,
+  Column, BaseEntity,
+  CreateDateColumn, UpdateDateColumn,
+  Timestamp
+} from 'typeorm'
 
-@Entity()
-export class Turma {
-  @PrimaryGeneratedColumn()
+@Entity({ name: 'classes' })
+export class Class extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column()
-  nome: string;
+  @Column({ nullable: false })
+  name: string;
 
-  @Column()
-  dataCriacao: string;
+  @Column({ nullable: false })
+  description: string;
 
-  @Column()
-  descricao: string;
+  @Column({ nullable: false })
+  teacherId: number;
+
+  @CreateDateColumn()
+  createdAt: Timestamp
+
+  @UpdateDateColumn()
+  updatedAt: Timestamp
 }

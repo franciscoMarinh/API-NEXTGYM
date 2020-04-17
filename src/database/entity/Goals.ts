@@ -5,19 +5,16 @@ import {
   Timestamp
 } from 'typeorm'
 
-@Entity({ name: 'student' })
-export class Student extends BaseEntity {
+  @Entity({ name: 'goals' })
+export class Goal extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ nullable: false })
-  name: string;
-
-  @CreateDateColumn({ nullable: false })
-  birthDate: Timestamp;
+  tittle: string;
 
   @Column({ nullable: false })
-  biography: string;
+  description: string;
 
   @Column({ nullable: false })
   userId: number;
