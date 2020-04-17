@@ -1,22 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import {
+  Entity, PrimaryGeneratedColumn,
+  Column, BaseEntity,
+  CreateDateColumn, UpdateDateColumn,
+  Timestamp
+} from 'typeorm'
 
-@Entity()
-export class Professor {
-  @PrimaryGeneratedColumn()
+@Entity({ name: 'teacher' })
+export class Teacher extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column()
-  nome: string;
+  @Column({ nullable: false })
+  name: string;
 
-  @Column()
-  licenca: string;
+  @Column({ nullable: false, unique: true })
+  license: string;
 
-  @Column()
-  dataNascimentousers: Date;
+  @CreateDateColumn({ nullable: false })
+  birthDate: Timestamp;
 
-  @Column()
-  biografia: string;
+  @Column({ nullable: false })
+  biography: string;
 
-  @Column()
-  idUsuario: number
+  @Column({ nullable: false })
+  userId: number;
+
+  @CreateDateColumn()
+  createdAt: Timestamp
+
+  @UpdateDateColumn()
+  updatedAt: Timestamp
 }

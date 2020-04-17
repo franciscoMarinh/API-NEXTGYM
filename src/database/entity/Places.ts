@@ -1,13 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import {
+  Entity, PrimaryGeneratedColumn,
+  Column, BaseEntity,
+  CreateDateColumn,
+  Timestamp
+} from 'typeorm'
 
-@Entity()
-export class Local {
-  @PrimaryGeneratedColumn()
+@Entity({ name: 'place' })
+export class Place extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column()
-  local: string;
+  @Column({ nullable: false })
+  place: string;
 
-  @Column()
-  idTurma: number;
+  @Column({ nullable: false })
+  classId: number;
+
+  @CreateDateColumn({ nullable: false })
+  exerciseDate: Timestamp;
 }
