@@ -1,23 +1,26 @@
 import {
-  Entity, PrimaryGeneratedColumn,
-  Column, BaseEntity,
-  CreateDateColumn, UpdateDateColumn,
-  Timestamp
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Timestamp,
 } from 'typeorm'
 
-  @Entity({ name: 'student' })
+@Entity({ name: 'student' })
 export class Student extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: number
 
   @Column({ nullable: false })
-  tittle: string;
+  tittle: string
 
   @Column({ nullable: false })
-  classId: number;
+  classId: number
 
   @Column({ nullable: false })
-  description: string;
+  description: string
 
   @CreateDateColumn()
   createdAt: Timestamp

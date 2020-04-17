@@ -6,17 +6,17 @@ class RouterController {
   public routes: express.Router
   public pathFolder: string
 
-  constructor () {
+  constructor() {
     this.routes = express.Router()
     this.pathFolder = path.join(__dirname)
     this.applyAllRoutes()
   }
 
-  private isDirectory (path: string): boolean {
+  private isDirectory(path: string): boolean {
     return fs.lstatSync(`${this.pathFolder}/${path}`).isDirectory()
   }
 
-  private applyAllRoutes (): void {
+  private applyAllRoutes(): void {
     fs.readdirSync(this.pathFolder).forEach((folder) => {
       if (this.isDirectory(folder)) {
         const routeName = folder.replace(/-|\.|\s/g, '')

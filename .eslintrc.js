@@ -7,7 +7,8 @@ module.exports = {
     'standard',
     'prettier/@typescript-eslint',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended'
   ],
   globals: {
     Atomics: 'readonly',
@@ -20,9 +21,19 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint',
-    'standard'
+    'prettier'
   ],
   rules: {
-    "@typescript-eslint/explicit-function-return-type": "off"
-  }
+    "@typescript-eslint/explicit-function-return-type": "off",
+    '@typescript-eslint/member-delimiter-style': ['error', {
+      "multiline": {
+        "delimiter": "none",
+        "requireLast": false
+      },
+      "singleline": {
+        "delimiter": "comma",
+        "requireLast": false
+      }
+    }]
+  },
 }

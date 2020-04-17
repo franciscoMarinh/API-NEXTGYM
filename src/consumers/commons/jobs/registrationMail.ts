@@ -5,9 +5,9 @@ import { ProcessPromiseFunction } from 'bull'
 
 interface Email {
   user: {
-    email: string;
-    name: string;
-  };
+    email: string
+    name: string
+  }
 }
 
 const handle: ProcessPromiseFunction<Email> = async ({ data }) => {
@@ -16,7 +16,7 @@ const handle: ProcessPromiseFunction<Email> = async ({ data }) => {
       from: 'nextgymnoreply@gmail.com',
       to: data.user.email,
       subject: 'Bem-vindo',
-      text: `Olá ${data.user.name}, Parabéns por se registrar em nossa plataforma`
+      text: `Olá ${data.user.name}, Parabéns por se registrar em nossa plataforma`,
     })
     logger.info(`RegistrationMail, E-mail enviado para: ${data.user.email}`)
   } catch (error) {
@@ -26,5 +26,5 @@ const handle: ProcessPromiseFunction<Email> = async ({ data }) => {
 
 export default {
   name: 'RegistrationMail',
-  handle
+  handle,
 }
