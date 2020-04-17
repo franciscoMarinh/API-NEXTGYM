@@ -8,24 +8,24 @@ import { createConnection } from 'typeorm'
 import routes from './api/modules/routes'
 import logger from './consumers/commons/utils/logger'
 require('dotenv').config({
-  path: '.env.local'
+  path: '.env.local',
 })
 
 class AppController {
   public app: express.Application
 
-  constructor () {
+  constructor() {
     this.app = express()
     this.middlewares()
     this.routes()
     this.database()
   }
 
-  private routes (): void {
+  private routes(): void {
     this.app.use(routes)
   }
 
-  private middlewares (): void {
+  private middlewares(): void {
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(cors())
@@ -34,7 +34,7 @@ class AppController {
     // this.app.use(authMiddlware)
   }
 
-  private async database (): Promise<void> {
+  private async database(): Promise<void> {
     try {
       await createConnection()
       logger.info('Database connected')

@@ -1,21 +1,23 @@
 import {
-  Entity, PrimaryGeneratedColumn,
-  Column, BaseEntity,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
   CreateDateColumn,
-  Timestamp
+  Timestamp,
 } from 'typeorm'
 
 @Entity({ name: 'place' })
 export class Place extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: number
 
   @Column({ nullable: false })
-  place: string;
+  place: string
 
   @Column({ nullable: false })
-  classId: number;
+  classId: number
 
   @CreateDateColumn({ nullable: false })
-  exerciseDate: Timestamp;
+  exerciseDate: Timestamp
 }

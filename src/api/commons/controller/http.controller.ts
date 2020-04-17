@@ -2,11 +2,16 @@
 import { Response, NextFunction } from 'express'
 
 interface Params {
-  message?: string;
-  statusCode?: number;
+  message?: string
+  statusCode?: number
 }
 
-type SendResponse = (res: Response, next: NextFunction, data: object, params?: Params) => void | Response
+type SendResponse = (
+  res: Response,
+  next: NextFunction,
+  data: object,
+  params?: Params
+) => void | Response
 
 export default class HttpController {
   public sendResponse: SendResponse = (res, next, data, params?) => {
@@ -14,7 +19,7 @@ export default class HttpController {
 
     return res.status(statusCode).json({
       message,
-      data
+      data,
     })
   }
 }
