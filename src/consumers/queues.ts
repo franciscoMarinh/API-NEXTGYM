@@ -29,7 +29,7 @@ class QueueController {
     })
   }
 
-  public add(jobName: string): Bull.Queue | boolean {
+  public getJob(jobName: string): Bull.Queue | boolean {
     const job = this.jobs.find((job) => job.name === jobName)
     if (!job) return false
     return job.bull

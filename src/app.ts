@@ -30,6 +30,7 @@ class AppController {
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(cors())
     this.app.use(helmet())
+
     this.app.use(morgan('tiny'))
     // this.app.use(authMiddlware)
   }

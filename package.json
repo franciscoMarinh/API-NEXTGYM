@@ -5,7 +5,7 @@
    "scripts": {
       "dev": "nodemon src/server",
       "dev:job": "nodemon src/consumers/run",
-      "lint": "eslint --ext .js,.ts src/**",
+      "lint": "eslint --ext .js,.ts ./src/",
       "test": "jest",
       "build": "tsc",
       "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",

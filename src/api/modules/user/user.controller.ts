@@ -39,7 +39,7 @@ class UserController extends HttpController {
     }
   }
 
-  public findByEmail = async (req, res, next) => {
+  public findByEmail: HandleRouter = async (req, res, next) => {
     try {
       const { email, password } = req.body
       const user = await User.findByEmail(email, password)
