@@ -30,5 +30,4 @@ describe('User entity', () => {
     const token = await user.generateUserToken()
     expect(token).toBeDefined()
   })
-
 })
