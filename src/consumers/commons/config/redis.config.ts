@@ -1,4 +1,6 @@
-require('dotenv').config()
+require('dotenv').config({
+  path: process.env.NODE_ENV !== 'test' ? '.env.local' : '.env.test',
+})
 
 export default {
   redis: {

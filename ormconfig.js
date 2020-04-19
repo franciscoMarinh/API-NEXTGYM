@@ -1,10 +1,10 @@
 require('dotenv').config({
-  path: '.env.local',
+  path: process.env.NODE_ENV !== 'test' ? '.env.local' : '.env.test',
 })
 
 const basePath = process.env.NODE_ENV === 'production' ? 'build' : 'src'
 module.exports = {
-  type: 'postgres',
+  type: process.env.DB_DIALECT,
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT),
   username: process.env.DB_USER,

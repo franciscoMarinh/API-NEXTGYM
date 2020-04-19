@@ -64,6 +64,8 @@
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
   "exclude": [
-  "__tests__"  
+  "__tests__",
+  "node_modules",
+  "./ormconfig.js"
   ]
 }
