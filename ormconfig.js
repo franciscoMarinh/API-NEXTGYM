@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: process.env.NODE_ENV !== 'test' ? '.env.local' : '.env.test',
+  path: process.env.NODE_ENV !== 'test' ? '.env.test' : '.env.local',
 })
 
 const basePath = process.env.NODE_ENV === 'production' ? 'build' : 'src'
@@ -10,7 +10,7 @@ module.exports = {
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_BASE,
-  synchronize: false,
+  synchronize: true,
   logging: false,
   // ssl: {
   //   rejectUnauthorized: false,

@@ -10,6 +10,8 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root
       POSTGRES_DB: next
+    networks:
+      - backend
   redis:
     image: redis
     container_name: redis
