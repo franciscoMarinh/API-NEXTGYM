@@ -5,4 +5,5 @@ build
 tmp
 temp
 dist
+db.sqlite3
 __tests__/coverage

@@ -1,23 +1,17 @@
 import jwt from 'jsonwebtoken'
-import { Request, Response, NextFunction } from 'express'
+import { Request, RequestHandler } from 'express'
 import Promises from 'bluebird'
 import HttpController from '../controller/http.controller'
 
-interface AuthRequest extends Request {
+interface ReqUser extends Request {
   user: {
     id: string
     email: string
   }
 }
 
-type AuthMiddleware = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => Promise<void | Response>
-
 class AuthController extends HttpController {
-  public authMiddleware: AuthMiddleware = async (req, res, next) => {
+  public authMiddleware: RequestHandler = async (req: ReqUser, res, next) => {
     try {
       const { authorization } = req.headers
       if (!authorization) return res.sendStatus(401)
