@@ -5,6 +5,8 @@ import {
   BaseEntity,
   CreateDateColumn,
   Timestamp,
+  ManyToMany,
+  JoinTable
 } from 'typeorm'
 
 @Entity({ name: 'place' })
@@ -17,6 +19,9 @@ export class Place extends BaseEntity {
 
   @Column({ nullable: false })
   classId: number
+
+  @ManyToMany(type => Classes, classes => classes.place)
+  classes: Classes[];
 
   @CreateDateColumn({ nullable: false })
   exerciseDate: Timestamp
