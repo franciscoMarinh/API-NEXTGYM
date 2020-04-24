@@ -6,7 +6,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Timestamp,
+  ManyToMany
 } from 'typeorm'
+
+import {Class} from "./Classes"
 
 @Entity({ name: 'classActivity' })
 export class ClassActivity extends BaseEntity {
@@ -21,6 +24,9 @@ export class ClassActivity extends BaseEntity {
 
   @Column({ nullable: false })
   description: string
+
+  @ManyToMany(type => Class, classes => classes.classActivity)
+  classes: Class[]
 
   @CreateDateColumn()
   createdAt: Timestamp

@@ -7,7 +7,14 @@ import {
   UpdateDateColumn,
   Timestamp,
   BeforeInsert,
+  OneToOne,
+  JoinColumn
 } from 'typeorm'
+
+import { Student } from './Students'
+import { Teacher } from './Teachers'
+
+
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import Promises from 'bluebird'
@@ -31,6 +38,14 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Timestamp
+
+  @OneToOne(type => Student, student => student.user)
+  @JoinColumn()
+  student: Student;
+
+   @OneToOne(type => Teacher, teacher => teacher.user)
+   @JoinColumn()
+   teacher: Teacher;
 
   /* Class method */
   static async findByEmail(email: string, password: string): Promise<User> {

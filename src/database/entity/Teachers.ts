@@ -6,7 +6,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Timestamp,
+  OneToMany,
+  OneToOne,
+  JoinTable
 } from 'typeorm'
+
+import { Class } from './Classes'
+import { User } from './User'
 
 @Entity({ name: 'teacher' })
 export class Teacher extends BaseEntity {
@@ -28,9 +34,17 @@ export class Teacher extends BaseEntity {
   @Column({ nullable: false })
   userId: number
 
+  @OneToOne(type => User, user => user.teacher)
+  user: User;
+
+  @OneToMany(type => Class, classes => classes.teacher)
+  @JoinTable()
+  classes: Class[];
+
   @CreateDateColumn()
   createdAt: Timestamp
 
   @UpdateDateColumn()
   updatedAt: Timestamp
+
 }

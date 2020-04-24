@@ -62,7 +62,7 @@
     "nodemailer": "^6.4.6",
     "pg": "^8.0.2",
     "reflect-metadata": "^0.1.10",
-    "typeorm": "0.2.24",
+    "typeorm": "^0.2.24",
     "winston": "^3.2.1"
   }
 }
