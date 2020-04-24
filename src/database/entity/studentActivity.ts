@@ -9,6 +9,8 @@ import {
    ManyToMany
 } from 'typeorm'
 
+import { Student } from './Students'
+
 @Entity({ name: 'studentActivity' })
 export class StudentActivity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')

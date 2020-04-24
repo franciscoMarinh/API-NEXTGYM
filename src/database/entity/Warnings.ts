@@ -8,9 +8,10 @@ import {
   Timestamp,
   ManyToMany,
 } from 'typeorm'
+import { Class } from "./Classes"
 
-@Entity({ name: 'student' })
-export class Student extends BaseEntity {
+@Entity({ name: 'warning' })
+export class Warning extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number
 
@@ -23,8 +24,8 @@ export class Student extends BaseEntity {
   @Column({ nullable: false })
   description: string
 
-  @ManyToMany(type => Classes, classes => classes.warning)
-  classes: Classes[]
+  @ManyToMany(type => Class, classes => classes.warning)
+  classes: Class[]
 
   @CreateDateColumn()
   createdAt: Timestamp

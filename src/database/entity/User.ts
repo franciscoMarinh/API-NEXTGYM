@@ -10,6 +10,11 @@ import {
   OneToOne,
   JoinColumn
 } from 'typeorm'
+
+import { Student } from './Students'
+import { Teacher } from './Teachers'
+
+
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import Promises from 'bluebird'

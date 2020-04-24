@@ -9,6 +9,8 @@ import {
   ManyToMany
 } from 'typeorm'
 
+import {Class} from "./Classes"
+
 @Entity({ name: 'classActivity' })
 export class ClassActivity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -23,8 +25,8 @@ export class ClassActivity extends BaseEntity {
   @Column({ nullable: false })
   description: string
 
-  @ManyToMany(type => Classes, classes => classes.classActivity)
-  classes: Classes[]
+  @ManyToMany(type => Class, classes => classes.classActivity)
+  classes: Class[]
 
   @CreateDateColumn()
   createdAt: Timestamp

@@ -11,6 +11,9 @@ import {
   JoinTable
 } from 'typeorm'
 
+import { Goal } from './Goals'
+import { User } from './User'
+import { StudentActivity } from './studentActivity'
 @Entity({ name: 'student' })
 export class Student extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -31,13 +34,13 @@ export class Student extends BaseEntity {
   @OneToOne(type => User, user => user.student)
   user: User;
 
-  @ManyToMany(type => StudentActivity, activity => activity.student)
+  @ManyToMany(type => StudentActivity, studentActivity => studentActivity.student)
   @JoinTable()
-  activity: StudentActivity[];
+  studentActivity: StudentActivity[];
 
-  @ManyToMany(type => Goals, goal => goal.student)
+  @ManyToMany(type => Goal, goals => goals.student)
   @JoinTable()
-  goal: Goals[];
+  goals: Goal[];
 
   @CreateDateColumn()
   createdAt: Timestamp

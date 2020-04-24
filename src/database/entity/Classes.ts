@@ -10,6 +10,11 @@ import {
   JoinTable
 } from 'typeorm'
 
+import { ClassActivity } from './classActivity'
+import { Teacher } from './Teachers'
+import { Warning } from './Warnings'
+import { Place } from './Places'
+
 @Entity({ name: 'classes' })
 export class Class extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -24,7 +29,7 @@ export class Class extends BaseEntity {
   @Column({ nullable: false })
   teacherId: number
 
-  @OneToOne(type => Teacher, teacher => teacher.classes)
+  @ManyToMany(type => Teacher, teacher => teacher.classes)
   teacher: Teacher;
 
   @ManyToMany(type => Place, place => place.classes)
@@ -35,9 +40,9 @@ export class Class extends BaseEntity {
   @JoinTable()
   warning: Warning[];
 
-  @ManyToMany(type => ClassActivity, activity => activity.classes)
+  @ManyToMany(type => ClassActivity, classActivity => classActivity.classes)
   @JoinTable()
-  activity: ClassActivity[];
+  classActivity: ClassActivity[];
 
   @CreateDateColumn()
   createdAt: Timestamp

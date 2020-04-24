@@ -11,6 +11,9 @@ import {
   JoinTable
 } from 'typeorm'
 
+import { Class } from './Classes'
+import { User } from './User'
+
 @Entity({ name: 'teacher' })
 export class Teacher extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -34,9 +37,9 @@ export class Teacher extends BaseEntity {
   @OneToOne(type => User, user => user.teacher)
   user: User;
 
-  @OneToMany(type => Classes, classes => classes.teacher)
+  @OneToMany(type => Class, classes => classes.teacher)
   @JoinTable()
-  classes: Classes[];
+  classes: Class[];
 
   @CreateDateColumn()
   createdAt: Timestamp
