@@ -8,7 +8,7 @@ import {
   Timestamp,
   OneToOne,
   ManyToMany,
-  JoinTable
+  JoinTable,
 } from 'typeorm'
 
 import { Goal } from './Goals'
@@ -31,16 +31,19 @@ export class Student extends BaseEntity {
   @Column({ nullable: false })
   userId: number
 
-  @OneToOne(type => User, user => user.student)
-  user: User;
+  @OneToOne((type) => User, (user) => user.student)
+  user: User
 
-  @ManyToMany(type => StudentActivity, studentActivity => studentActivity.student)
+  @ManyToMany(
+    (type) => StudentActivity,
+    (studentActivity) => studentActivity.student
+  )
   @JoinTable()
-  studentActivity: StudentActivity[];
+  studentActivity: StudentActivity[]
 
-  @ManyToMany(type => Goal, goals => goals.student)
+  @ManyToMany((type) => Goal, (goals) => goals.student)
   @JoinTable()
-  goals: Goal[];
+  goals: Goal[]
 
   @CreateDateColumn()
   createdAt: Timestamp

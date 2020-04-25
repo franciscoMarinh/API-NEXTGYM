@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
   Timestamp,
   ManyToMany,
-  JoinTable
+  JoinTable,
 } from 'typeorm'
 
 import { ClassActivity } from './classActivity'
@@ -29,20 +29,20 @@ export class Class extends BaseEntity {
   @Column({ nullable: false })
   teacherId: number
 
-  @ManyToMany(type => Teacher, teacher => teacher.classes)
-  teacher: Teacher;
+  @ManyToMany((type) => Teacher, (teacher) => teacher.classes)
+  teacher: Teacher
 
-  @ManyToMany(type => Place, place => place.classes)
+  @ManyToMany((type) => Place, (place) => place.classes)
   @JoinTable()
-  place: Place[];
+  place: Place[]
 
-  @ManyToMany(type => Warning, warning => warning.classes)
+  @ManyToMany((type) => Warning, (warning) => warning.classes)
   @JoinTable()
-  warning: Warning[];
+  warning: Warning[]
 
-  @ManyToMany(type => ClassActivity, classActivity => classActivity.classes)
+  @ManyToMany((type) => ClassActivity, (classActivity) => classActivity.classes)
   @JoinTable()
-  classActivity: ClassActivity[];
+  classActivity: ClassActivity[]
 
   @CreateDateColumn()
   createdAt: Timestamp

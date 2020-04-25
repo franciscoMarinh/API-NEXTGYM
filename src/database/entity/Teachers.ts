@@ -8,7 +8,7 @@ import {
   Timestamp,
   OneToMany,
   OneToOne,
-  JoinTable
+  JoinTable,
 } from 'typeorm'
 
 import { Class } from './Classes'
@@ -34,17 +34,16 @@ export class Teacher extends BaseEntity {
   @Column({ nullable: false })
   userId: number
 
-  @OneToOne(type => User, user => user.teacher)
-  user: User;
+  @OneToOne((type) => User, (user) => user.teacher)
+  user: User
 
-  @OneToMany(type => Class, classes => classes.teacher)
+  @OneToMany((type) => Class, (classes) => classes.teacher)
   @JoinTable()
-  classes: Class[];
+  classes: Class[]
 
   @CreateDateColumn()
   createdAt: Timestamp
 
   @UpdateDateColumn()
   updatedAt: Timestamp
-
 }

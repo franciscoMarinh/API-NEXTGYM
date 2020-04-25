@@ -5,7 +5,7 @@ import {
   BaseEntity,
   CreateDateColumn,
   Timestamp,
-  ManyToMany
+  ManyToMany,
 } from 'typeorm'
 
 import { Class } from './Classes'
@@ -21,8 +21,8 @@ export class Place extends BaseEntity {
   @Column({ nullable: false })
   classId: number
 
-  @ManyToMany(type => Class, classes => classes.place)
-  classes: Class[];
+  @ManyToMany((type) => Class, (classes) => classes.place)
+  classes: Class[]
 
   @CreateDateColumn({ nullable: false })
   exerciseDate: Timestamp

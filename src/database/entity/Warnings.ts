@@ -8,7 +8,7 @@ import {
   Timestamp,
   ManyToMany,
 } from 'typeorm'
-import { Class } from "./Classes"
+import { Class } from './Classes'
 
 @Entity({ name: 'warning' })
 export class Warning extends BaseEntity {
@@ -24,7 +24,7 @@ export class Warning extends BaseEntity {
   @Column({ nullable: false })
   description: string
 
-  @ManyToMany(type => Class, classes => classes.warning)
+  @ManyToMany((type) => Class, (classes) => classes.warning)
   classes: Class[]
 
   @CreateDateColumn()

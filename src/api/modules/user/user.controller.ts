@@ -1,15 +1,9 @@
-import { Request, Response, NextFunction } from 'express'
+import { RequestHandler } from 'express'
 import HttpController from '../../commons/controller/http.controller'
 import { User } from '../../../database/entity/User'
 
-type HandleRouter = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => Promise<void>
-
 class UserController extends HttpController {
-  public getAll: HandleRouter = async (req, res, next) => {
+  public getAll: RequestHandler = async (req, res, next) => {
     try {
       const users = await User.find()
       this.sendResponse(res, next, users)
@@ -21,7 +15,7 @@ class UserController extends HttpController {
     }
   }
 
-  public create: HandleRouter = async (req, res, next) => {
+  public create: RequestHandler = async (req, res, next) => {
     try {
       const { name, password, email } = req.body
       const user = new User()
@@ -39,7 +33,7 @@ class UserController extends HttpController {
     }
   }
 
-  public findByEmail: HandleRouter = async (req, res, next) => {
+  public findByEmail: RequestHandler = async (req, res, next) => {
     try {
       const { email, password } = req.body
       const user = await User.findByEmail(email, password)
