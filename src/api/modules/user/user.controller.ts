@@ -1,12 +1,12 @@
 import { RequestHandler } from 'express'
 import HttpController from '../../commons/controller/http.controller'
-import { User } from '../../../database/entity/User'
+import { Student } from '../../../database/entity/Students'
 
 class UserController extends HttpController {
   public getAll: RequestHandler = async (req, res, next) => {
     try {
-      const users = await User.find()
-      this.sendResponse(res, next, users)
+      const students = await Student.find()
+      this.sendResponse(res, next, students)
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         statusCode: 500,
@@ -18,13 +18,14 @@ class UserController extends HttpController {
   public create: RequestHandler = async (req, res, next) => {
     try {
       const { name, password, email } = req.body
-      const user = new User()
-      user.name = name
-      user.password = password
-      user.email = email
-      await user.save()
-      const token = await user.generateUserToken()
-      this.sendResponse(res, next, { user, token })
+      const student = Student.create({
+        email,
+        password,
+        name,
+      })
+      await student.save()
+      const token = await student.generateUserToken()
+      this.sendResponse(res, next, { student, token })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         statusCode: 500,
@@ -36,8 +37,8 @@ class UserController extends HttpController {
   public findByEmail: RequestHandler = async (req, res, next) => {
     try {
       const { email, password } = req.body
-      const user = await User.findByEmail(email, password)
-      this.sendResponse(res, next, user)
+      const student = await Student.findByEmail(email, password)
+      this.sendResponse(res, next, student)
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         message: error.message,

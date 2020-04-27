@@ -6,6 +6,7 @@ class UserRouter extends BaseRouter {
 
   initialize(): void {
     this.get('/', this.controller.get)
+    this.post('/', this.controller.get)
   }
 }
 

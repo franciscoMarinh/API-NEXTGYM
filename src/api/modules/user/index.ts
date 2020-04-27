@@ -7,8 +7,8 @@ class UserRouter extends BaseRouter {
 
   initialize(): void {
     this.get('/', authMiddleware, this.controller.getAll)
-    this.post('/', this.controller.create)
-    this.post('/findbyemail', this.controller.findByEmail)
+    this.post('/', authMiddleware, this.controller.create)
+    this.post('/findbyemail', authMiddleware, this.controller.findByEmail)
   }
 }
 
