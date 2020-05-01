@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import HttpController from '../../commons/controller/http.controller'
 import { Student } from '../../../database/entity/Students'
 
-class UserController extends HttpController {
+class StudentController extends HttpController {
   public getAll: RequestHandler = async (req, res, next) => {
     try {
       const students = await Student.find()
@@ -17,12 +17,7 @@ class UserController extends HttpController {
 
   public create: RequestHandler = async (req, res, next) => {
     try {
-      const { name, password, email } = req.body
-      const student = Student.create({
-        email,
-        password,
-        name,
-      })
+      const student = Student.create(req.body)
       await student.save()
       const token = await student.generateUserToken()
       this.sendResponse(res, next, { student, token })
@@ -48,4 +43,4 @@ class UserController extends HttpController {
   }
 }
 
-export default new UserController()
+export default new StudentController()
