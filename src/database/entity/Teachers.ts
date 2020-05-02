@@ -2,20 +2,20 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
   Timestamp,
   OneToMany,
-  OneToOne,
   JoinTable,
 } from 'typeorm'
 
+import { BaseUser } from '../commons/utils/baseUser'
+
 import { Class } from './Classes'
-import { User } from './User'
+import { Student } from './Students'
 
 @Entity({ name: 'teacher' })
-export class Teacher extends BaseEntity {
+export class Teacher extends BaseUser {
   @PrimaryGeneratedColumn('uuid')
   id: number
 
@@ -28,22 +28,37 @@ export class Teacher extends BaseEntity {
   @CreateDateColumn({ nullable: false })
   birthDate: Timestamp
 
+  @Column({ nullable: false, unique: true })
+  email: string
+
+  @Column({ nullable: false })
+  password: string
+
   @Column({ nullable: false })
   biography: string
 
   @Column({ nullable: false })
   userId: number
 
-  @OneToOne((type) => User, (user) => user.teacher)
-  user: User
-
   @OneToMany((type) => Class, (classes) => classes.teacher)
   @JoinTable()
   classes: Class[]
+
+  @OneToMany((type) => Student, (student) => student.teacher)
+  @JoinTable()
+  student: Student[]
 
   @CreateDateColumn()
   createdAt: Timestamp
 
   @UpdateDateColumn()
   updatedAt: Timestamp
+
+  static async findByEmail(email: string, password: string): Promise<Teacher> {
+    const teacher = await this.findOne({ email })
+    if (!teacher) throw new Error('user not found')
+    if (!(await teacher.isPassword(password)))
+      throw new Error('password incorret')
+    return teacher
+  }
 }

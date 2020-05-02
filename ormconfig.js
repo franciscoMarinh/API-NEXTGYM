@@ -1,8 +1,14 @@
 require('dotenv').config({
-  path: process.env.NODE_ENV !== 'test' ? '.env.local' : '.env.test',
+  path:
+    process.env.NODE_ENV === 'production'
+      ? '.env'
+      : process.env.NODE_ENV === 'test'
+      ? '.env.test'
+      : '.env.local',
 })
 
-const basePath = process.env.NODE_ENV === 'production' ? 'build' : 'src'
+const basePath = process.env.NODE_ENV === 'production' ? `dist` : 'src'
+
 module.exports = {
   type: process.env.DB_DIALECT,
   host: process.env.DB_HOST,
@@ -12,12 +18,12 @@ module.exports = {
   database: process.env.DB_BASE,
   synchronize: true,
   logging: false,
-  // ssl: {
-  //   rejectUnauthorized: false,
-  // },
-  entities: [`${basePath}/database/entity/**/*.ts`],
-  migrations: [`${basePath}/database/migration/**/*.ts`],
-  subscribers: [`${basePath}/database/subscriber/**/*.ts`],
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  entities: [`${basePath}/database/entity/*.{ts,js}`],
+  migrations: [`${basePath}/database/migration/*.{ts,js}`],
+  subscribers: [`${basePath}/database/subscriber/*.{ts,js}`],
   cli: {
     entitiesDir: 'src/database/entity',
     migrationsDir: 'src/database/migration',

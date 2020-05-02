@@ -1,24 +1,22 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
   Timestamp,
-  OneToOne,
   ManyToMany,
   JoinTable,
+  OneToOne,
 } from 'typeorm'
 
-import { Goal } from './Goals'
-import { User } from './User'
-import { StudentActivity } from './studentActivity'
-@Entity({ name: 'student' })
-export class Student extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: number
+import { BaseUser } from '../commons/utils/baseUser'
 
+import { Goal } from './Goals'
+import { Teacher } from './Teachers'
+import { StudentActivity } from './studentActivity'
+
+@Entity({ name: 'student' })
+export class Student extends BaseUser {
   @Column({ nullable: false })
   name: string
 
@@ -28,11 +26,8 @@ export class Student extends BaseEntity {
   @Column({ nullable: false })
   biography: string
 
-  @Column({ nullable: false })
-  userId: number
-
-  @OneToOne((type) => User, (user) => user.student)
-  user: User
+  @OneToOne((type) => Teacher, (teacher) => teacher.student)
+  teacher: Teacher
 
   @ManyToMany(
     (type) => StudentActivity,
@@ -50,4 +45,12 @@ export class Student extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Timestamp
+
+  static async findByEmail(email: string, password: string): Promise<Student> {
+    const student = await this.findOne({ email })
+    if (!student) throw new Error('user not found')
+    if (!(await student.isPassword(password)))
+      throw new Error('password incorret')
+    return student
+  }
 }
