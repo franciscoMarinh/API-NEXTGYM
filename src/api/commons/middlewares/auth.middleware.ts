@@ -42,7 +42,7 @@ class AuthController extends HttpController {
     }
   }
 
-  private authenticationHandler: PrivateRouterFunction = (req, res, next) => {
+  private authenticationHandler = (req, res, next) => {
     if (this.publicRoutes.indexOf(req.url) !== -1) {
       return next()
     } else {
