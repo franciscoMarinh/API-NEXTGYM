@@ -5,7 +5,7 @@ class Warning extends BaseRouter {
   public controller = WarningController
 
   initialize(): void {
-    this.get('/api/warning', this.controller.getAll),
+    this.get('/api/warning', this.controller.getAll)
     this.post('api/warning/post', this.controller.create)
   }
 }

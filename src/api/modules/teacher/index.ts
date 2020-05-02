@@ -6,8 +6,8 @@ class Teacher extends BaseRouter {
 
   initialize(): void {
     this.get('/', this.controller.getProfile)
-    this.post('/login', this.controller.findByEmail)
-    this.post('/', this.controller.create)
+    this.post('/login', this.controller.login)
+    this.post('/register', this.controller.register)
     this.put('/', this.controller.update)
   }
 }

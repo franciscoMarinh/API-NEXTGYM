@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
+import authMiddleware from './api/commons/middlewares/auth.middleware'
 import routes from './api/modules/routes'
 import logger from './consumers/commons/utils/logger'
 
@@ -22,11 +23,12 @@ class AppController {
   }
 
   private middlewares(): void {
-    this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
-    this.app.use(cors())
     this.app.use(helmet())
+    this.app.use(express.json())
     this.app.use(morgan('tiny'))
+    this.app.use(cors())
+    this.app.use(authMiddleware.initialize())
   }
 
   private async database(): Promise<void> {

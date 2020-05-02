@@ -1,12 +1,13 @@
 import { RequestHandler } from 'express'
 import HttpController from '../../commons/controller/http.controller'
 import { Teacher } from '../../../database/entity/Teachers'
+import { PrivateRouter } from '../../types/privateRouter.type'
+import Queues from '../../../consumers/queues'
 
 class TeacherController extends HttpController {
-  public getProfile: RequestHandler = async (req, res, next) => {
+  public getProfile: PrivateRouter = async (req, res, next) => {
     try {
-      const { id } = req.user
-      const teacher = await Teacher.findOne({ where: { id } })
+      const teacher = await Teacher.findOne({ where: { id: req.user.id } })
       this.sendResponse(res, next, teacher)
     } catch (error) {
       this.sendResponse(res, next, undefined, {
@@ -16,11 +17,12 @@ class TeacherController extends HttpController {
     }
   }
 
-  public findByEmail: RequestHandler = async (req, res, next) => {
+  public login: PrivateRouter = async (req, res, next) => {
     try {
       const { email, password } = req.body
-      const teacher = await Teacher.findByEmail(email, password)
-      this.sendResponse(res, next, teacher)
+      const student = await Teacher.findByEmail(email, password)
+      const token = await student.generateToken()
+      this.sendResponse(res, next, { token })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         message: error.message,
@@ -29,11 +31,25 @@ class TeacherController extends HttpController {
     }
   }
 
-  public create: RequestHandler = async (req, res, next) => {
+  public register: RequestHandler = async (req, res, next) => {
     try {
-      const teacher = await Teacher.create(req.body)
+      const { biography, birthDate, email, password, name } = req.body
+      if (!email || !name || !password) {
+        return this.sendResponse(res, next, undefined, {
+          statusCode: 500,
+        })
+      }
+      const teacher = new Teacher()
+      teacher.biography = biography
+      teacher.birthDate = birthDate
+      teacher.email = email
+      teacher.password = password
+      teacher.name = name
       await teacher.save()
-      this.sendResponse(res, next, { teacher })
+      const Queue = Queues.getJob('RegistrationMail')
+      await Queue.add({ user: { email, name } })
+      const token = await teacher.generateToken()
+      this.sendResponse(res, next, { teacher, token })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         statusCode: 500,
@@ -42,11 +58,9 @@ class TeacherController extends HttpController {
     }
   }
 
-  public update: RequestHandler = async (req, res, next) => {
+  public update: PrivateRouter = async (req, res, next) => {
     try {
-      const teacher = await Teacher.findOne({ where: { id } })
-      await teacher.update(req.body)
-      this.sendResponse(res, next, teacher)
+      this.sendResponse(res, next, { teacher: 'hello' })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         statusCode: 500,

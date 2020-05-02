@@ -2,24 +2,20 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
   Timestamp,
   OneToMany,
   JoinTable,
-  BeforeInsert,
 } from 'typeorm'
 
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import Promises from 'bluebird'
+import { BaseUser } from '../commons/utils/baseUser'
 
 import { Class } from './Classes'
 import { Student } from './Students'
 
 @Entity({ name: 'teacher' })
-export class Teacher extends BaseEntity {
+export class Teacher extends BaseUser {
   @PrimaryGeneratedColumn('uuid')
   id: number
 
@@ -64,25 +60,5 @@ export class Teacher extends BaseEntity {
     if (!(await teacher.isPassword(password)))
       throw new Error('password incorret')
     return teacher
-  }
-
-  /* Hooks */
-  @BeforeInsert()
-  async encriptPass(): Promise<void> {
-    this.password = await bcrypt.hash(this.password, 10)
-  }
-
-  /* Prototypes */
-  async isPassword(password: string): Promise<boolean> {
-    return bcrypt.compare(password, this.password)
-  }
-
-  async generateUserToken(): Promise<string> {
-    const genAsync = Promises.promisify(jwt.sign).bind(jwt)
-    return genAsync(
-      { email: this.email, id: this.id },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES }
-    )
   }
 }
