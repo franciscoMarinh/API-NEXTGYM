@@ -6,9 +6,7 @@
     "dev": "nodemon src/server",
     "dev:job": "nodemon src/consumers/run",
     "lint": "eslint --ext .js,.ts ./src/",
-    "pretest": "NODE_ENV=test&&yarn typeorm schema:sync",
     "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test yarn typeorm schema:drop",
     "build": "tsc",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "start": "NODE_ENV=production node dist/server&&node dist/consumers/run"

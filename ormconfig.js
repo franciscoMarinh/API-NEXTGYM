@@ -1,10 +1,5 @@
 require('dotenv').config({
-  path:
-    process.env.NODE_ENV === 'production'
-      ? '.env'
-      : process.env.NODE_ENV === 'test'
-      ? '.env.test'
-      : '.env.local',
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env.local',
 })
 
 const basePath = process.env.NODE_ENV === 'production' ? `dist` : 'src'
@@ -18,9 +13,9 @@ module.exports = {
   database: process.env.DB_BASE,
   synchronize: true,
   logging: false,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
   entities: [`${basePath}/database/entity/*.{ts,js}`],
   migrations: [`${basePath}/database/migration/*.{ts,js}`],
   subscribers: [`${basePath}/database/subscriber/*.{ts,js}`],

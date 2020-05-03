@@ -37,9 +37,6 @@ export class Teacher extends BaseUser {
   @Column({ nullable: false })
   biography: string
 
-  @Column({ nullable: false })
-  userId: number
-
   @OneToMany((type) => Class, (classes) => classes.teacher)
   @JoinTable()
   classes: Class[]

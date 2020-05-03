@@ -1,5 +1,5 @@
 import typeorm, { createConnection } from 'typeorm'
-import factory from '../../factory/User.factory'
+import factory from '../../factory/teacher.factory'
 import bcrypt from 'bcrypt'
 
 describe('User entity', () => {
@@ -9,7 +9,7 @@ describe('User entity', () => {
     connection = await createConnection()
   })
   afterAll(async () => {
-    connection.close()
+    await connection.close()
   })
 
   it('should encript the password', async () => {
@@ -26,8 +26,8 @@ describe('User entity', () => {
   })
 
   it('should return a valid user token', async () => {
-    const user = await factory.build()
-    const token = await user.generateUserToken()
+    const teacher = await factory.build()
+    const token = await teacher.generateToken()
     expect(token).toBeDefined()
   })
 })
