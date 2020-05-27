@@ -25,12 +25,13 @@ class StudentController extends HttpController {
           statusCode: 500,
         })
       }
-      const student = new Student()
-      student.email = email
-      student.biography = biography
-      student.password = password
-      student.birthDate = birthDate
-      student.name = name
+      const student = Student.create({
+        email,
+        biography,
+        password,
+        birthDate,
+        name,
+      })
       await student.save()
       const Queue = Queues.getJob('RegistrationMail')
       await Queue.add({ user: { email, name } })
