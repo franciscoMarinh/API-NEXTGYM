@@ -9,6 +9,8 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import Promises from 'bluebird'
 
+import { privateKey } from '../config/auth.config'
+
 export class BaseUser extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number
@@ -32,10 +34,8 @@ export class BaseUser extends BaseEntity {
 
   async generateToken(): Promise<string> {
     const genAsync = Promises.promisify(jwt.sign).bind(jwt)
-    return genAsync(
-      { email: this.email, id: this.id },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES }
-    )
+    return genAsync({ email: this.email, id: this.id }, privateKey, {
+      expiresIn: process.env.JWT_EXPIRES,
+    })
   }
 }

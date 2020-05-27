@@ -8,6 +8,8 @@ import {
   PrivateRouterFunction,
 } from '../../types/privateRouter.type'
 
+import { publicKey } from '../config/auth.config'
+
 class AuthController extends HttpController {
   private publicRoutes: Array<string>
 
@@ -28,7 +30,7 @@ class AuthController extends HttpController {
     try {
       const token = this.extractBearerFromHeader(req)
       const getAsync = Promises.promisify(jwt.verify).bind(jwt)
-      const user = await getAsync(token, process.env.JWT_SECRET)
+      const user = await getAsync(token, publicKey)
       req.user = {
         email: user.email,
         id: user.id,

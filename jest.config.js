@@ -4,9 +4,6 @@ require('dotenv').config({
   path: '.env.test',
 })
 
-console.log(process.env.NODE_ENV, 'ENV')
-console.log(process.env.DB_DIALECT, 'DIALECT')
-
 module.exports = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
