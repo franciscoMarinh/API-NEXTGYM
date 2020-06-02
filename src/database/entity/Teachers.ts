@@ -13,6 +13,7 @@ import { BaseUser } from '../commons/utils/baseUser'
 
 import { Class } from './Classes'
 import { Student } from './Students'
+import { ChatRoom } from './ChatRooms'
 
 @Entity({ name: 'teacher' })
 export class Teacher extends BaseUser {
@@ -44,6 +45,10 @@ export class Teacher extends BaseUser {
   @OneToMany((type) => Student, (student) => student.teacher)
   @JoinTable()
   student: Student[]
+
+  @OneToMany((type) => ChatRoom, (chatRoom) => chatRoom.teacher)
+  @JoinTable()
+  chatRooms: ChatRoom[]
 
   @CreateDateColumn()
   createdAt: Timestamp

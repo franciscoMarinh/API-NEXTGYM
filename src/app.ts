@@ -36,6 +36,7 @@ class AppController {
       await createConnection()
       logger.info('Database connected')
     } catch (error) {
+      console.log(error.message)
       logger.error('Database not connected')
     }
   }

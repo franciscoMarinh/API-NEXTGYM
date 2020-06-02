@@ -31,7 +31,9 @@ class StudentController extends HttpController {
         password,
         birthDate,
         name,
+        typeProfile: 'student',
       })
+
       await student.save()
       const Queue = Queues.getJob('RegistrationMail')
       await Queue.add({ user: { email, name } })
