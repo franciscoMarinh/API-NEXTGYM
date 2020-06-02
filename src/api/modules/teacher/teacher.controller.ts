@@ -33,7 +33,7 @@ class TeacherController extends HttpController {
 
   public register: RequestHandler = async (req, res, next) => {
     try {
-      const { biography, birthDate, email, password, name } = req.body
+      const { biography, birthDate, email, password, name, license } = req.body
       if (!email || !name || !password) {
         return this.sendResponse(res, next, undefined, {
           statusCode: 500,
@@ -45,6 +45,8 @@ class TeacherController extends HttpController {
       teacher.email = email
       teacher.password = password
       teacher.name = name
+      teacher.license = license
+      teacher.typeProfile = 'teacher'
       await teacher.save()
       const Queue = Queues.getJob('RegistrationMail')
       await Queue.add({ user: { email, name } })
