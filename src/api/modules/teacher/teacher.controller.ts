@@ -20,13 +20,18 @@ class TeacherController extends HttpController {
   public login: PrivateRouter = async (req, res, next) => {
     try {
       const { email, password } = req.body
+      if (!email || !password)
+        return this.sendResponse(res, next, undefined, {
+          message: 'Please send emaild and password',
+          statusCode: 500,
+        })
       const student = await Teacher.findByEmail(email, password)
       const token = await student.generateToken()
       this.sendResponse(res, next, { token })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         message: error.message,
-        statusCode: 401,
+        statusCode: 500,
       })
     }
   }

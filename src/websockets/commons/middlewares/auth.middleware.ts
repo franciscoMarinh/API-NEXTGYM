@@ -10,6 +10,7 @@ class SocketUtils {
       const { token } = socket.handshake.query
       const getAsync = Promises.promisify(jwt.verify).bind(jwt)
       const decoded = await getAsync(token, config.publicKey)
+      socket.handshake.query.user = decoded
       next()
     } catch (error) {
       next(new Error('Authentication error'))
