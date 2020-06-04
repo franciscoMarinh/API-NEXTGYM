@@ -5,10 +5,7 @@ class Teacher extends BaseRouter {
   public controller = TeacherContoller
 
   initialize(): void {
-    this.get('/', this.controller.getProfile)
-    this.post('/login', this.controller.login)
     this.post('/register', this.controller.register)
-    this.put('/', this.controller.update)
   }
 }
 
