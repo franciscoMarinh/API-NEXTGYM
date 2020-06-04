@@ -7,21 +7,20 @@ import {
   Timestamp,
   OneToMany,
   JoinTable,
+  BaseEntity,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm'
-
-import { BaseUser } from '../commons/utils/baseUser'
 
 import { Class } from './Classes'
 import { Student } from './Students'
 import { ChatRoom } from './ChatRooms'
+import { User } from './Users'
 
 @Entity({ name: 'teacher' })
-export class Teacher extends BaseUser {
+export class Teacher extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number
-
-  @Column({ nullable: false })
-  name: string
 
   @Column({ nullable: false, unique: true })
   license: string
@@ -29,15 +28,16 @@ export class Teacher extends BaseUser {
   @CreateDateColumn({ nullable: false })
   birthDate: Timestamp
 
-  @Column({ nullable: false, unique: true })
-  email: string
-
-  @Column({ nullable: false })
-  password: string
-
   @Column({ nullable: false })
   biography: string
 
+  @CreateDateColumn()
+  createdAt: Timestamp
+
+  @UpdateDateColumn()
+  updatedAt: Timestamp
+
+  /* Relationships */
   @OneToMany((type) => Class, (classes) => classes.teacher)
   @JoinTable()
   classes: Class[]
@@ -50,17 +50,7 @@ export class Teacher extends BaseUser {
   @JoinTable()
   chatRooms: ChatRoom[]
 
-  @CreateDateColumn()
-  createdAt: Timestamp
-
-  @UpdateDateColumn()
-  updatedAt: Timestamp
-
-  static async findByEmail(email: string, password: string): Promise<Teacher> {
-    const teacher = await this.findOne({ email })
-    if (!teacher) throw new Error('user not found')
-    if (!(await teacher.isPassword(password)))
-      throw new Error('password incorret')
-    return teacher
-  }
+  @OneToOne((type) => User)
+  @JoinColumn()
+  user: User
 }

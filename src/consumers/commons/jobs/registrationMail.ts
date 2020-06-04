@@ -1,5 +1,6 @@
 import nodeMailer from '../libs/mail'
 import logger from '../utils/logger'
+import { JobsNames } from '../../../types/enums/jobs.enum'
 
 import { ProcessPromiseFunction } from 'bull'
 
@@ -25,6 +26,6 @@ const handle: ProcessPromiseFunction<Email> = async ({ data }) => {
 }
 
 export default {
-  name: 'RegistrationMail',
+  name: JobsNames.RegistrationMail,
   handle,
 }

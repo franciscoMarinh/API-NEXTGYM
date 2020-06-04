@@ -1,4 +1,4 @@
-import { PrivateRouter } from '../../types/privateRouter.type'
+import { PrivateRouter } from '../../../types/routes/privateRouter.type'
 import HttpController from '../../commons/controller/http.controller'
 import { ChatRoom } from '../../../database/entity/ChatRooms'
 import { Messages } from '../../../database/entity/Messages'

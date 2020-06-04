@@ -1,67 +1,43 @@
 import HttpController from '../../commons/controller/http.controller'
-import { PrivateRouter } from '../../types/privateRouter.type'
 import { Student } from '../../../database/entity/Students'
-import Queues from '../../../consumers/queues'
+import validateController from './student.validator'
 import { RequestHandler } from 'express'
-
+import { User } from '../../../database/entity/Users'
+import { getConnection } from 'typeorm'
+import Queues from '../../../consumers/queues'
+import { JobsNames } from '../../../types/enums/jobs.enum'
 class StudentController extends HttpController {
-  public getProfile: PrivateRouter = async (req, res, next) => {
-    try {
-      const student = await Student.findOne({ where: { id: req.user.id } })
-      this.sendResponse(res, next, student)
-    } catch (error) {
-      this.sendResponse(res, next, undefined, {
-        statusCode: 500,
-        message: error.message,
-      })
-    }
-  }
-
   public register: RequestHandler = async (req, res, next) => {
     try {
-      const { email, biography, password, birthDate, name } = req.body
-      if (!email || !name || !password) {
-        return this.sendResponse(res, next, undefined, {
-          statusCode: 500,
-        })
-      }
+      validateController.validateParams(req.body)
+      const { body } = req
+
+      const user = User.create({
+        name: body.name,
+        password: body.password,
+        email: body.email,
+      })
+
       const student = Student.create({
-        email,
-        biography,
-        password,
-        birthDate,
-        name,
-        typeProfile: 'student',
+        birthDate: body.birthDate,
+        biography: body.biography,
       })
 
-      await student.save()
-      const Queue = Queues.getJob('RegistrationMail')
-      await Queue.add({ user: { email, name } })
-      const token = await student.generateToken()
-      this.sendResponse(res, next, { student, token })
+      student.user = user
+
+      await getConnection().manager.save([user, student])
+      Queues.addQueue(JobsNames.RegistrationMail, {
+        user: {
+          email: body.email,
+          name: body.name,
+        },
+      })
+      const token = await user.generateToken()
+      this.sendResponse(res, next, { user, token })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         statusCode: 500,
         message: error.message,
-      })
-    }
-  }
-
-  public login: PrivateRouter = async (req, res, next) => {
-    try {
-      const { email, password } = req.body
-      if (!email || !password)
-        return this.sendResponse(res, next, undefined, {
-          message: 'Please send emaild and password',
-          statusCode: 500,
-        })
-      const student = await Student.findByEmail(email, password)
-      const token = await student.generateToken()
-      this.sendResponse(res, next, { token })
-    } catch (error) {
-      this.sendResponse(res, next, undefined, {
-        message: error.message,
-        statusCode: 500,
       })
     }
   }

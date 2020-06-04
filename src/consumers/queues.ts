@@ -29,9 +29,9 @@ class QueueController {
     })
   }
 
-  public getJob(jobName: string): Bull.Queue {
+  public addQueue(jobName: string, data: object) {
     const job = this.jobs.find((job) => job.name === jobName)
-    return job.bull
+    job.bull.add(data)
   }
 
   public processAllJobs(): void {

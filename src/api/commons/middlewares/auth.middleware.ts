@@ -6,7 +6,7 @@ import { Request } from 'express'
 import {
   PrivateRouter,
   PrivateRouterFunction,
-} from '../../types/privateRouter.type'
+} from '../../../types/routes/privateRouter.type'
 
 import config from '../config/auth.config'
 

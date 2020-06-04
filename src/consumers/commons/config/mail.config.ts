@@ -1,3 +1,7 @@
+require('dotenv').config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env.local',
+})
+
 export default {
   service: process.env.MAIL_SERVICE,
   auth: {

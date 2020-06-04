@@ -1,11 +1,12 @@
 import BaseRouter from '../../commons/router/baseRouter'
-import studentController from './student.controller'
+import userController from './user.controller'
 
 class StudentRouter extends BaseRouter {
-  public controller = studentController
+  public controller = userController
 
   initialize(): void {
-    this.post('/register', this.controller.register)
+    this.post('/login', this.controller.login)
+    this.get('/', this.controller.getProfile)
   }
 }
 
