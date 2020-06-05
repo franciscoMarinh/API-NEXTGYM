@@ -16,6 +16,7 @@ import { Goal } from './Goals'
 import { Teacher } from './Teachers'
 import { StudentActivity } from './studentActivity'
 import { User } from './Users'
+import { ChatRoom } from './ChatRooms'
 
 @Entity({ name: 'student' })
 export class Student extends BaseEntity {
@@ -48,6 +49,9 @@ export class Student extends BaseEntity {
   @ManyToMany((type) => Goal, (goals) => goals.student)
   @JoinTable()
   goals: Goal[]
+
+  @OneToOne((type) => ChatRoom)
+  chatRooms: ChatRoom
 
   @OneToOne((type) => User)
   @JoinColumn()

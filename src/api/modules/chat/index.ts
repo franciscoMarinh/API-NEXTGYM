@@ -5,8 +5,8 @@ class HealthCheck extends BaseRouter {
   public controller = ChatController
 
   initialize(): void {
-    this.get('/teacher/rooms', this.controller.teacherRooms)
-    this.get('/student/messages', this.controller.studentMessages)
+    this.get('/rooms', this.controller.getRooms)
+    this.get('/room/:roomId', this.controller.getRoomMessages)
   }
 }
 
