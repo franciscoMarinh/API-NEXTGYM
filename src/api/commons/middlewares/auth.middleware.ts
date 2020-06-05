@@ -7,6 +7,7 @@ import {
   PrivateRouter,
   PrivateRouterFunction,
 } from '../../../types/routes/privateRouter.type'
+import redis from '../services/redis.service'
 
 import config from '../config/auth.config'
 
@@ -26,11 +27,20 @@ class AuthController extends HttpController {
     return token
   }
 
+  private async checkIfTokenHasInBlackList(token: string) {
+    const existAsync = Promises.promisify(redis.exists).bind(redis)
+    const exist = await existAsync(token)
+    if (exist) {
+      throw new Error('TOKEN IN BLACKLIST')
+    }
+  }
+
   private authMiddleware: PrivateRouter = async (req, res, next) => {
     try {
       const token = this.extractBearerFromHeader(req)
       const getAsync = Promises.promisify(jwt.verify).bind(jwt)
       const user = await getAsync(token, config.publicKey, config.configOptions)
+      await this.checkIfTokenHasInBlackList(token)
       req.user = {
         email: user.email,
         id: user.id,
