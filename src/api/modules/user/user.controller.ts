@@ -22,7 +22,7 @@ class StudentController extends HttpController {
       const { email, password } = req.body
       const user = await User.findByEmail(email, password)
       const token = await user.generateToken()
-      this.sendResponse(res, next, { token })
+      this.sendResponse(res, next, { user, token })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         message: error.message,
