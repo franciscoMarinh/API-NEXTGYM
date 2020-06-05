@@ -8,6 +8,7 @@ import {
   BaseEntity,
   BeforeInsert,
   OneToOne,
+  OneToMany,
 } from 'typeorm'
 
 import bcrypt from 'bcrypt'
@@ -17,6 +18,7 @@ import Promises from 'bluebird'
 import config from '../commons/config/auth.config'
 import { Student } from './Students'
 import { Teacher } from './Teachers'
+import { Message } from './Messages'
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -43,6 +45,9 @@ export class User extends BaseEntity {
 
   @OneToOne((type) => Teacher, (teacher) => teacher.user) // specify inverse side as a second parameter
   teacher: Teacher
+
+  @OneToMany((type) => Message, (message) => message.author)
+  messages: Message[]
 
   /* Hooks */
   @BeforeInsert()
@@ -77,6 +82,9 @@ export class User extends BaseEntity {
       where: { id },
       relations: ['student', 'teacher'],
     })
+
+    if (!user.student) delete user.student
+    if (!user.teacher) delete user.teacher
 
     return user
   }

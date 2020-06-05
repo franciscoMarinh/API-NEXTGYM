@@ -1,7 +1,7 @@
 import io from 'socket.io'
 import { Server } from 'http'
 import authMiddleware from '../commons/middlewares/auth.middleware'
-import chatRoomController from './chat/chat.websocket'
+import chatRoomController from './chat'
 
 class SocketController {
   private socket: io.Server

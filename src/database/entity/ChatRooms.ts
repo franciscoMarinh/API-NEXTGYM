@@ -1,41 +1,35 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
   BaseEntity,
   CreateDateColumn,
   Timestamp,
   OneToOne,
   JoinColumn,
+  JoinTable,
   ManyToOne,
   OneToMany,
 } from 'typeorm'
 
 import { Teacher } from './Teachers'
 import { Student } from './Students'
-import { Messages } from './Messages'
+import { Message } from './Messages'
 
 @Entity({ name: 'chatRoom' })
 export class ChatRoom extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number
 
-  @OneToOne(() => Student)
+  @OneToOne((type) => Student)
   @JoinColumn()
-  student: number
-
-  @Column()
-  studentId: number
+  student: Student
 
   @ManyToOne((type) => Teacher, (teacher) => teacher.chatRooms)
   @JoinColumn()
-  teacher: number
+  teacher: Teacher
 
-  @Column()
-  teacherId: number
-
-  @OneToMany((type) => Messages, (messages) => messages.chat)
-  messages: Messages[]
+  @OneToMany((type) => Message, (message) => message.chat)
+  messages: Message[]
 
   @CreateDateColumn()
   createdAt: Timestamp

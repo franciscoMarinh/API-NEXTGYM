@@ -7,26 +7,32 @@ import {
   Timestamp,
   ManyToOne,
   JoinColumn,
+  JoinTable,
 } from 'typeorm'
 import { ChatRoom } from './ChatRooms'
+import { User } from './Users'
 
-@Entity({ name: 'messages' })
-export class Messages extends BaseEntity {
+@Entity({ name: 'message' })
+export class Message extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number
 
   @Column({ nullable: false })
   message: string
 
-  @Column({ nullable: false })
-  author: string
+  @ManyToOne((type) => User, (user) => user.messages)
+  @JoinColumn({ name: 'authorId' })
+  author: User
 
   @ManyToOne((type) => ChatRoom, (chatRoom) => chatRoom.messages)
   @JoinColumn({ name: 'chatId' })
   chat: ChatRoom
 
   @Column()
-  chatId: number
+  chatId: string
+
+  @Column()
+  authorId: string
 
   @CreateDateColumn()
   createdAt: Timestamp
