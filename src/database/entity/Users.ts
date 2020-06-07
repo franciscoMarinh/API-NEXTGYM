@@ -71,7 +71,10 @@ export class User extends BaseEntity {
 
   /* Class Methods */
   static async findByEmail(email: string, password: string): Promise<User> {
-    const user = await this.findOne({ email }, { select: ['password'] })
+    const user = await this.findOne(
+      { email },
+      { select: ['password', 'email', 'id'] }
+    )
     if (!user) throw new Error('user not found')
     if (!(await user.isPassword(password))) throw new Error('password incorret')
     return user
