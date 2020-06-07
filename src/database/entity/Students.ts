@@ -10,6 +10,8 @@ import {
   BaseEntity,
   JoinColumn,
   PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm'
 
 import { Goal } from './Goals'
@@ -36,7 +38,8 @@ export class Student extends BaseEntity {
   updatedAt: Timestamp
 
   /* Relationships */
-  @OneToOne((type) => Teacher, (teacher) => teacher.student)
+  @ManyToOne((type) => Teacher, (teacher) => teacher.student)
+  @JoinColumn()
   teacher: Teacher
 
   @ManyToMany(

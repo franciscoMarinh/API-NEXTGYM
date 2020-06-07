@@ -10,6 +10,7 @@ import {
   BaseEntity,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm'
 
 import { Class } from './Classes'
@@ -43,7 +44,6 @@ export class Teacher extends BaseEntity {
   classes: Class[]
 
   @OneToMany((type) => Student, (student) => student.teacher)
-  @JoinTable()
   student: Student[]
 
   @OneToMany((type) => ChatRoom, (chatRoom) => chatRoom.teacher)
@@ -53,4 +53,15 @@ export class Teacher extends BaseEntity {
   @OneToOne((type) => User)
   @JoinColumn()
   user: User
+
+  /* ClassMethods */
+  static getTeacherProfile = async (userId: string): Promise<Teacher> => {
+    const teacher = await Teacher.findOne({
+      where: { user: { id: userId } },
+    })
+
+    if (!teacher) throw new Error('The user not is a teacher')
+
+    return teacher
+  }
 }

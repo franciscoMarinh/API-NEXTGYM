@@ -47,6 +47,24 @@ class TeacherController extends HttpController {
       })
     }
   }
+
+  public getStudents: PrivateRouter = async (req, res, next) => {
+    try {
+      const result = await Teacher.findOne({
+        where: {
+          user: { id: req.user.id },
+        },
+        relations: ['student', 'student.user'],
+      })
+
+      this.sendResponse(res, next, { students: result.student })
+    } catch (error) {
+      this.sendResponse(res, next, undefined, {
+        statusCode: 500,
+        message: error.message,
+      })
+    }
+  }
 }
 
 export default new TeacherController()
