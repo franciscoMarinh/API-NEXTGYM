@@ -25,7 +25,7 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string
 
   @Column({ nullable: false })
@@ -71,7 +71,7 @@ export class User extends BaseEntity {
 
   /* Class Methods */
   static async findByEmail(email: string, password: string): Promise<User> {
-    const user = await this.findOne({ email })
+    const user = await this.findOne({ email }, { select: ['password'] })
     if (!user) throw new Error('user not found')
     if (!(await user.isPassword(password))) throw new Error('password incorret')
     return user
