@@ -19,6 +19,7 @@ import config from '../commons/config/auth.config'
 import { Student } from './Students'
 import { Teacher } from './Teachers'
 import { Message } from './Messages'
+import { Administrator } from './Administrator'
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -40,11 +41,20 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Timestamp
 
-  @OneToOne((type) => Student, (student) => student.user) // specify inverse side as a second parameter
+  @OneToOne((type) => Student, (student) => student.user, {
+    onDelete: 'CASCADE',
+  }) // specify inverse side as a second parameter
   student: Student
 
-  @OneToOne((type) => Teacher, (teacher) => teacher.user) // specify inverse side as a second parameter
+  @OneToOne((type) => Teacher, (teacher) => teacher.user, {
+    onDelete: 'CASCADE',
+  }) // specify inverse side as a second parameter
   teacher: Teacher
+
+  @OneToOne((type) => Administrator, (administrator) => administrator.user, {
+    onDelete: 'CASCADE',
+  }) // specify inverse side as a second parameter
+  administrator: Administrator
 
   @OneToMany((type) => Message, (message) => message.author)
   messages: Message[]
@@ -83,10 +93,11 @@ export class User extends BaseEntity {
   static async getProfile(id: string) {
     const user = await User.findOne({
       where: { id },
-      relations: ['student', 'teacher'],
+      relations: ['student', 'teacher', 'administrator'],
     })
 
     if (!user.student) delete user.student
+    if (!user.administrator) delete user.administrator
     if (!user.teacher) delete user.teacher
 
     return user

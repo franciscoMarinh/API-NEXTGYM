@@ -20,7 +20,7 @@ export class Message extends BaseEntity {
   @Column({ nullable: false })
   message: string
 
-  @ManyToOne((type) => User, (user) => user.messages)
+  @ManyToOne((type) => User, (user) => user.messages, {})
   @JoinColumn({ name: 'authorId' })
   author: User
 
