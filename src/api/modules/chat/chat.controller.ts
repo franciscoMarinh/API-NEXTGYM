@@ -7,15 +7,25 @@ import { User } from '../../../database/entity/Users'
 class ChatController extends HttpController {
   public getRooms: PrivateRouter = async (req, res, next) => {
     try {
+      console.log(req.user.id, 'id')
       const user = await User.getProfile(req.user.id)
       let chatRooms
+      console.log(user, 'user')
       if (user.teacher) {
         chatRooms = await ChatRoom.find({
-          where: { teacherId: user.teacher.id },
+          where: {
+            teacher: {
+              id: user.teacher.id,
+            },
+          },
         })
       } else {
         chatRooms = await ChatRoom.findOne({
-          where: { studentId: user.student.id },
+          where: {
+            student: {
+              id: user.student.id,
+            },
+          },
         })
       }
       this.sendResponse(res, next, chatRooms)
@@ -31,14 +41,16 @@ class ChatController extends HttpController {
     try {
       if (!req.params.roomId)
         throw new Error('Please send room id to get messages')
-      const messages = await ChatRoom.findOne({
+
+      const messages = await Message.find({
         where: {
-          id: req.params.roomId,
+          chat: {
+            id: req.params.roomId,
+          },
         },
-        relations: ['messages'],
       })
 
-      this.sendResponse(res, next, messages)
+      this.sendResponse(res, next, { messages })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         message: error.message,

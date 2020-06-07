@@ -28,12 +28,9 @@ export class Message extends BaseEntity {
   @JoinColumn({ name: 'chatId' })
   chat: ChatRoom
 
-  @Column()
-  chatId: string
-
-  @Column()
-  authorId: string
-
   @CreateDateColumn()
   createdAt: Timestamp
+
+  @Column({ nullable: false })
+  authorId: string
 }
