@@ -1,1 +1,1 @@
-export default ['/api/teacher/register', '/api/healthcheck', '/api/user/login']
+export default ['/api/healthcheck', '/api/user/login']

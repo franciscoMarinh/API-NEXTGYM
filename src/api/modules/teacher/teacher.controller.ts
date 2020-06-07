@@ -1,4 +1,3 @@
-import { RequestHandler } from 'express'
 import HttpController from '../../commons/controller/http.controller'
 import { Teacher } from '../../../database/entity/Teachers'
 import { User } from '../../../database/entity/Users'
@@ -9,9 +8,14 @@ import { getConnection } from 'typeorm'
 import { JobsNames } from '../../../types/enums/jobs.enum'
 
 class TeacherController extends HttpController {
-  public register: RequestHandler = async (req, res, next) => {
+  public register: PrivateRouter = async (req, res, next) => {
     try {
       teacherValidator.validateParams(req.body)
+
+      const profile = await User.getProfile(req.user.id)
+      if (!profile.administrator)
+        throw new Error(`the user don't have permission`)
+
       const { body } = req
 
       const user = User.create({

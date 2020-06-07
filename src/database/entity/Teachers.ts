@@ -50,7 +50,7 @@ export class Teacher extends BaseEntity {
   @JoinTable()
   chatRooms: ChatRoom[]
 
-  @OneToOne((type) => User)
+  @OneToOne((type) => User, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User
 
