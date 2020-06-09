@@ -72,8 +72,15 @@ export class User extends BaseEntity {
 
   async generateToken(): Promise<string> {
     const genAsync = Promises.promisify(jwt.sign).bind(jwt)
+
+    let typeProfile: string
+
+    if (this.student) typeProfile = 'student'
+    if (this.teacher) typeProfile = 'teacher'
+    if (this.administrator) typeProfile = 'administrator'
+
     return genAsync(
-      { email: this.email, id: this.id },
+      { email: this.email, id: this.id, typeProfile },
       config.privateKey,
       config.configOptions
     )
@@ -81,12 +88,18 @@ export class User extends BaseEntity {
 
   /* Class Methods */
   static async findByEmail(email: string, password: string): Promise<User> {
-    const user = await this.findOne(
-      { email },
-      { select: ['password', 'email', 'id'] }
-    )
+    const user = await this.findOne({
+      where: { email },
+      select: ['password', 'email', 'id'],
+      relations: ['student', 'teacher', 'administrator'],
+    })
     if (!user) throw new Error('user not found')
     if (!(await user.isPassword(password))) throw new Error('password incorret')
+
+    if (!user.student) delete user.student
+    if (!user.administrator) delete user.administrator
+    if (!user.teacher) delete user.teacher
+
     return user
   }
 

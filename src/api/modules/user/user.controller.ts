@@ -40,7 +40,7 @@ class StudentController extends HttpController {
       await setAsync(token, 0)
       const expireAsync = Promises.promisify(redis.expire).bind(redis)
       await expireAsync(token, 28800)
-      this.sendResponse(res, next, { hello: 'world' })
+      this.sendResponse(res, next, { message: 'success!!' })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         message: error.message,

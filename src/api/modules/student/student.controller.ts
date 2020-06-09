@@ -7,6 +7,7 @@ import { getConnection } from 'typeorm'
 import Queues from '../../../consumers/queues'
 import { JobsNames } from '../../../types/enums/jobs.enum'
 import { PrivateRouter } from '../../../types/routes/privateRouter.type'
+import { ChatRoom } from '../../../database/entity/ChatRooms'
 
 class StudentController extends HttpController {
   public register: PrivateRouter = async (req, res, next) => {
@@ -30,7 +31,13 @@ class StudentController extends HttpController {
       student.user = user
       student.teacher = teacher
 
-      await getConnection().manager.save([user, student, teacher])
+      const chatRoom = new ChatRoom()
+
+      chatRoom.student = student
+      chatRoom.teacher = teacher
+
+      await getConnection().manager.save([user, student, chatRoom])
+
       Queues.addQueue(JobsNames.RegistrationMail, {
         user: {
           email: body.email,
