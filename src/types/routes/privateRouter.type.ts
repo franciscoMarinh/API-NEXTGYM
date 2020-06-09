@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 
 interface Payload {
-  id: string
+  id: number
   email: string
+  typeProfile: string
 }
 
 export interface UserRequest extends Request {

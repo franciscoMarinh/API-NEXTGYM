@@ -44,6 +44,7 @@ class AuthController extends HttpController {
       req.user = {
         email: user.email,
         id: user.id,
+        typeProfile: user.typeProfile,
       }
       next()
     } catch (error) {

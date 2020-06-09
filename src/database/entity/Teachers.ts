@@ -55,7 +55,7 @@ export class Teacher extends BaseEntity {
   user: User
 
   /* ClassMethods */
-  static getTeacherProfile = async (userId: string): Promise<Teacher> => {
+  static getTeacherProfile = async (userId: number): Promise<Teacher> => {
     const teacher = await Teacher.findOne({
       where: { user: { id: userId } },
     })
