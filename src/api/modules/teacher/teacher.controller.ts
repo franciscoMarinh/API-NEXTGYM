@@ -54,14 +54,14 @@ class TeacherController extends HttpController {
 
   public getStudents: PrivateRouter = async (req, res, next) => {
     try {
-      const result = await Teacher.findOne({
+      const result = await Teacher.findOneOrFail({
         where: {
           user: { id: req.user.id },
         },
-        relations: ['student', 'student.user'],
+        relations: ['student', 'student.user', 'student.chatRoom'],
       })
 
-      this.sendResponse(res, next, { students: result.student })
+      this.sendResponse(res, next, { students: result })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         statusCode: 500,

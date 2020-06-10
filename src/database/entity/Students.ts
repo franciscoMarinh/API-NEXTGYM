@@ -53,8 +53,8 @@ export class Student extends BaseEntity {
   @JoinTable()
   goals: Goal[]
 
-  @OneToOne((type) => ChatRoom)
-  chatRooms: ChatRoom
+  @OneToOne((type) => ChatRoom, (chatRoom) => chatRoom.student)
+  chatRoom: ChatRoom
 
   @OneToOne((type) => User)
   @JoinColumn()
