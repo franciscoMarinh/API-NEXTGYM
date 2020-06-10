@@ -23,11 +23,11 @@ class AppController {
   }
 
   private middlewares(): void {
-    this.app.use(express.urlencoded({ extended: true }))
-    this.app.use(helmet())
-    this.app.use(express.json())
-    this.app.use(morgan('tiny'))
     this.app.use(cors())
+    this.app.use(express.urlencoded({ extended: true }))
+    this.app.use(express.json())
+    this.app.use(helmet())
+    this.app.use(morgan('tiny'))
     this.app.use(authMiddleware.initialize())
   }
 
