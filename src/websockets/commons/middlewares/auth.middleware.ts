@@ -14,7 +14,6 @@ class SocketUtils {
       next()
     } catch (error) {
       next(new Error('Authentication error'))
-      console.log(error.message, 'error')
     }
   }
 }

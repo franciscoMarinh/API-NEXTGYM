@@ -6,7 +6,7 @@ class HealthCheck extends BaseRouter {
 
   initialize(): void {
     this.get('/rooms', this.controller.getRooms)
-    this.get('/room/:roomId', this.controller.getRoomMessages)
+    this.get('/messages/:roomId', this.controller.getRoomMessages)
   }
 }
 

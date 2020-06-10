@@ -3,10 +3,9 @@ import { ChatRoom } from '../../../database/entity/ChatRooms'
 
 class ChatController {
   joinChatRoom(socket: Socket) {
-    socket.join(socket.handshake.query.to)
+    socket.join(socket.handshake.query.chatRoom)
     socket.on('message', (message) => {
-      console.log(socket.handshake.query.user.id, 'id')
-      socket.to(socket.handshake.query.to).emit('message', message)
+      socket.to(socket.handshake.query.chatRoom).emit('message', message)
     })
   }
 }

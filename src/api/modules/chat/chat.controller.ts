@@ -7,10 +7,9 @@ import { User } from '../../../database/entity/Users'
 class ChatController extends HttpController {
   public getRooms: PrivateRouter = async (req, res, next) => {
     try {
-      console.log(req.user.id, 'id')
       const user = await User.getProfile(req.user.id)
       let chatRooms
-      console.log(user, 'user')
+
       if (user.teacher) {
         chatRooms = await ChatRoom.find({
           where: {
@@ -19,7 +18,7 @@ class ChatController extends HttpController {
             },
           },
         })
-      } else {
+      } else if (user.student) {
         chatRooms = await ChatRoom.findOne({
           where: {
             student: {
