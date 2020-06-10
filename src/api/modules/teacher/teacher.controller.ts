@@ -61,7 +61,7 @@ class TeacherController extends HttpController {
         relations: ['student', 'student.user', 'student.chatRoom'],
       })
 
-      this.sendResponse(res, next, { students: result })
+      this.sendResponse(res, next, { students: result.student })
     } catch (error) {
       this.sendResponse(res, next, undefined, {
         statusCode: 500,

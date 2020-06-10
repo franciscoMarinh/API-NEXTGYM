@@ -14,7 +14,6 @@ import {
 import { Teacher } from './Teachers'
 import { Student } from './Students'
 import { Message } from './Messages'
-import student from 'src/api/modules/student'
 
 @Entity({ name: 'chatRoom' })
 export class ChatRoom extends BaseEntity {
