@@ -103,7 +103,7 @@ export class User extends BaseEntity {
     return user
   }
 
-  static async getProfile(id: string) {
+  static async getProfile(id: number) {
     const user = await User.findOne({
       where: { id },
       relations: ['student', 'teacher', 'administrator'],
