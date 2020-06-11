@@ -8,6 +8,7 @@ class Teacher extends BaseRouter {
     this.post('/register', this.controller.register)
     this.get('/students', this.controller.getStudents)
     this.get('/trainings', this.controller.allTrainings)
+    this.post('/training/create', this.controller.createTraining)
     this.delete('/training/remove/:trainingId', this.controller.removeTraining)
     this.put('/training/update/:trainingId', this.controller.updateTraining)
   }
