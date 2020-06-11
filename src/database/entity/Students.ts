@@ -19,6 +19,7 @@ import { Teacher } from './Teachers'
 import { StudentActivity } from './studentActivity'
 import { User } from './Users'
 import { ChatRoom } from './ChatRooms'
+import { Training } from './Trainings'
 
 @Entity({ name: 'student' })
 export class Student extends BaseEntity {
@@ -59,4 +60,9 @@ export class Student extends BaseEntity {
   @OneToOne((type) => User)
   @JoinColumn()
   user: User
+
+  @OneToMany((type) => Training, (training) => training.student, {
+    onDelete: 'CASCADE',
+  })
+  trannings: Training[]
 }
