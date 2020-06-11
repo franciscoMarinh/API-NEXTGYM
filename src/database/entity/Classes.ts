@@ -13,7 +13,6 @@ import {
 import { ClassActivity } from './classActivity'
 import { Teacher } from './Teachers'
 import { Warning } from './Warnings'
-import { Place } from './Places'
 
 @Entity({ name: 'classes' })
 export class Class extends BaseEntity {
@@ -31,10 +30,6 @@ export class Class extends BaseEntity {
 
   @ManyToMany((type) => Teacher, (teacher) => teacher.classes)
   teacher: Teacher
-
-  @ManyToMany((type) => Place, (place) => place.classes)
-  @JoinTable()
-  place: Place[]
 
   @ManyToMany((type) => Warning, (warning) => warning.classes)
   @JoinTable()
