@@ -29,7 +29,7 @@ class HealthCheckController extends HttpController {
       if (!profile.administrator)
         throw new Error(`the user don't have permission`)
 
-      await User.delete(teacherId)
+      await Teacher.delete(teacherId)
       this.sendResponse(res, next, { message: 'teacher deleted with success' })
     } catch (error) {
       this.sendResponse(res, next, undefined, {

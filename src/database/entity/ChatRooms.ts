@@ -24,7 +24,9 @@ export class ChatRoom extends BaseEntity {
   @JoinColumn()
   student: Student
 
-  @ManyToOne((type) => Teacher, (teacher) => teacher.chatRooms)
+  @ManyToOne((type) => Teacher, (teacher) => teacher.chatRooms, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   teacher: Teacher
 

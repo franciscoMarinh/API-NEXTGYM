@@ -39,14 +39,20 @@ export class Teacher extends BaseEntity {
   updatedAt: Timestamp
 
   /* Relationships */
-  @OneToMany((type) => Class, (classes) => classes.teacher)
+  @OneToMany((type) => Class, (classes) => classes.teacher, {
+    onDelete: 'SET NULL',
+  })
   @JoinTable()
   classes: Class[]
 
-  @OneToMany((type) => Student, (student) => student.teacher)
+  @OneToMany((type) => Student, (student) => student.teacher, {
+    onDelete: 'SET NULL',
+  })
   student: Student[]
 
-  @OneToMany((type) => ChatRoom, (chatRoom) => chatRoom.teacher)
+  @OneToMany((type) => ChatRoom, (chatRoom) => chatRoom.teacher, {
+    onDelete: 'SET NULL',
+  })
   chatRooms: ChatRoom[]
 
   @OneToOne((type) => User, { onDelete: 'CASCADE' })

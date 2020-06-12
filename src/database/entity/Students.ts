@@ -39,7 +39,9 @@ export class Student extends BaseEntity {
   updatedAt: Timestamp
 
   /* Relationships */
-  @ManyToOne((type) => Teacher, (teacher) => teacher.student)
+  @ManyToOne((type) => Teacher, (teacher) => teacher.student, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   teacher: Teacher
 

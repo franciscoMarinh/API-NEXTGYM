@@ -31,7 +31,9 @@ export class Training extends BaseEntity {
   @Column({ type: 'text' })
   description: string
 
-  @ManyToOne((type) => Teacher)
+  @ManyToOne((type) => Teacher, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   teacher: Teacher
 
