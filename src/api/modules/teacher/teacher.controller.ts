@@ -81,8 +81,8 @@ class TeacherController extends HttpController {
       training.exerciseDate = body.exerciseDate
       training.urlYoutube = body.urlYoutube
       training.title = body.title
-      training['student' as any] = req.params.studentId
-      training['teacher' as any] = req.user.id
+      training['student.id' as any] = req.params.studentId
+      training['teacher.id' as any] = req.user.id
       await training.save()
 
       this.sendResponse(res, next, { training })
