@@ -75,6 +75,9 @@ class TeacherController extends HttpController {
     try {
       teacherValidator.validateTrainingParams(req.body)
       if (!req.params.studentId) throw new Error('Please send studentId')
+      const teacher = await Teacher.findOneOrFail({
+        where: { user: { id: req.user.id } },
+      })
       const { body } = req
       const training = new Training()
       training.description = body.description
@@ -82,7 +85,7 @@ class TeacherController extends HttpController {
       training.urlYoutube = body.urlYoutube
       training.title = body.title
       training['student' as any] = { id: req.params.studentId }
-      training['teacher' as any] = { id: req.user.id }
+      training.teacher = teacher
       await training.save()
 
       this.sendResponse(res, next, { training })
