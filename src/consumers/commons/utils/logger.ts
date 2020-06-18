@@ -8,11 +8,8 @@ const myFormat = printf(({ level, message }) => {
 })
 
 const logger = createLogger({
-  format: combine(
-    format.splat(),
-    myFormat
-  ),
-  transports: [new transports.Console()]
+  format: combine(format.splat(), myFormat),
+  transports: [new transports.Console()],
 })
 
 export default logger

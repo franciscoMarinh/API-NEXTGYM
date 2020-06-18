@@ -1,6 +1,8 @@
 {
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnSave": false,
+  "prettier.endOfLine": "lf",
+  "files.eol": "\n",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   }

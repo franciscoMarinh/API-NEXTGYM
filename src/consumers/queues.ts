@@ -5,37 +5,36 @@ import redisConfig from './commons/config/redis.config'
 import logger from './commons/utils/logger'
 
 interface Jobs {
-  name: string;
-  bull: Bull.Queue;
-  handle: Bull.ProcessPromiseFunction<object>;
+  name: string
+  bull: Bull.Queue
+  handle: Bull.ProcessPromiseFunction<object>
 }
 
 class QueueController {
   public jobs: Array<Jobs>
-  constructor () {
+  constructor() {
     this.jobs = this.getAllJobs()
   }
 
-  private getAllJobs (): Array<Jobs> {
+  private getAllJobs(): Array<Jobs> {
     const jobsPath = path.join(__dirname, 'commons', 'jobs')
-    return fs.readdirSync(jobsPath).map(job => {
+    return fs.readdirSync(jobsPath).map((job) => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const jobData = require(`${jobsPath}/${job}`).default
       return {
         name: jobData.name,
         bull: new Bull(jobData.name, redisConfig),
-        handle: jobData.handle
+        handle: jobData.handle,
       }
     })
   }
 
-  public add (jobName: string): Bull.Queue | boolean {
-    const job = this.jobs.find(job => job.name === jobName)
-    if (!job) return false
-    return job.bull
+  public addQueue(jobName: string, data: object) {
+    const job = this.jobs.find((job) => job.name === jobName)
+    job.bull.add(data)
   }
 
-  public processAllJobs (): void {
+  public processAllJobs(): void {
     this.jobs.forEach(async (job) => {
       try {
         job.bull.process(job.handle)

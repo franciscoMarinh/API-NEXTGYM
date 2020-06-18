@@ -1,5 +1,8 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
+require('dotenv').config({
+  path: '.env.test',
+})
 
 module.exports = {
   // All imported modules in your tests should be mocked automatically
@@ -24,7 +27,7 @@ module.exports = {
   collectCoverageFrom: ['src/**/*.ts'],
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: '__tests__/coverage',
+  coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: ['/node_modules/'],
@@ -105,12 +108,10 @@ module.exports = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  // rootDir: undefined,
+  rootDir: './',
 
   // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  roots: ['<rootDir>'],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
@@ -134,12 +135,10 @@ module.exports = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ['**/__tests__/**/*.test.ts'],
+  testMatch: ['<rootDir>/__tests__/**/*.test.ts'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  // testPathIgnorePatterns: ['/node_modules/'],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -158,7 +157,7 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '.(js|jsx|ts|tsx)': '@sucrase/jest-plugin',
+    '.(ts)': 'ts-jest',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

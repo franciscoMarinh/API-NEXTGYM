@@ -1,6 +1,9 @@
 import app from './app'
 import http from 'http'
+import attachWebSocket from './websockets/modules/websocket'
 
 const server = http.createServer(app)
 
-server.listen(3000)
+attachWebSocket(server)
+
+server.listen(process.env.PORT || 3000)

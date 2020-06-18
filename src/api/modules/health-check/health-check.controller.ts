@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express'
+import { RequestHandler } from 'express'
 import HttpController from '../../commons/controller/http.controller'
 
 class HealthCheckController extends HttpController {
-  public get = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public get: RequestHandler = async (req, res, next) => {
     const data = {
-      hello: 'world'
+      hello: 'world',
     }
     this.sendResponse(res, next, data)
   }

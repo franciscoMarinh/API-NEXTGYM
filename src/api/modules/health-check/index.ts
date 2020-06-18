@@ -4,7 +4,7 @@ import HealthCheckController from './health-check.controller'
 class HealthCheck extends BaseRouter {
   public controller = HealthCheckController
 
-  initialize (): void {
+  initialize(): void {
     this.get('/', this.controller.get)
   }
 }
