@@ -2,6 +2,10 @@
   "name": "nextgym",
   "version": "1.0.0",
   "main": "src/server",
+  "author": {
+    "name": "Francisco marinho",
+    "email": "nextgymnoreply@gmail.com"
+  },
   "scripts": {
     "dev": "nodemon src/server",
     "dev:job": "ts-node src/consumers/run",
