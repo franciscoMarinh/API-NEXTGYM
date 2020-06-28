@@ -1,7 +1,3 @@
-require('dotenv').config({
-  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env.local',
-})
-
 const privateKey = `
 -----BEGIN RSA PRIVATE KEY-----
 ${process.env.JWT_PRIVATEKEY}
